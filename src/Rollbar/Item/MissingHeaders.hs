@@ -3,6 +3,7 @@
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE CPP #-}
 
 {-|
     Module      : Rollbar.Item.MissingHeaders
@@ -20,6 +21,7 @@ module Rollbar.Item.MissingHeaders
 
 import Data.Aeson
     (FromJSON, KeyValue, ToJSON, object, parseJSON, toJSON, (.=))
+import Rollbar.Aeson
 import Data.Bifunctor       (bimap)
 import Data.CaseInsensitive (mk, original)
 import Data.Maybe           (catMaybes)
@@ -31,7 +33,6 @@ import Network.HTTP.Types (Header, RequestHeaders)
 
 import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as BSC8
-import qualified Data.Text             as T
 import qualified Data.Text.Encoding    as TE
 
 -- | The request headers with some missing
@@ -72,5 +73,5 @@ requestHeadersKVs = fmap go
         val <- myDecodeUtf8 val'
         pure (key .= val)
 
-myDecodeUtf8 :: BS.ByteString -> Maybe T.Text
-myDecodeUtf8 = either (const Nothing) Just . TE.decodeUtf8'
+myDecodeUtf8 :: BS.ByteString -> Maybe Key
+myDecodeUtf8 = either (const Nothing) (Just . textToKey) . TE.decodeUtf8'

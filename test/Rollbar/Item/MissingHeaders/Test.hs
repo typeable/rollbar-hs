@@ -9,6 +9,7 @@ module Rollbar.Item.MissingHeaders.Test where
 import           Data.Aeson                  (Value (Object), decode', encode,
                                               toJSON)
 import           Data.Functor                (void)
+import           Data.Hashable
 import           Data.HashSet                (HashSet)
 import           Data.Text                   (Text)
 
@@ -91,4 +92,5 @@ keys = \case
   Object o -> Data.HashSet.fromMap (void o)
   _ -> mempty
 
+notMember :: (Eq a, Hashable a) => a -> HashSet a -> Bool
 notMember x = not . Data.HashSet.member x

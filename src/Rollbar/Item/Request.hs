@@ -48,6 +48,7 @@ import GHC.Generics (Generic)
 import Network.HTTP.Types (Query)
 import Network.Socket     (SockAddr(SockAddrInet), tupleToHostAddress)
 
+import Rollbar.Aeson
 import Rollbar.Item.MissingHeaders
 
 import Text.Read (readMaybe)
@@ -103,7 +104,7 @@ queryKVs = fmap go
     go (key', val') = do
         key <- myDecodeUtf8 key'
         let val = val' >>= myDecodeUtf8
-        pure (key .= val)
+        pure (textToKey key .= val)
 
 -- | The HTTP Verb
 newtype Method

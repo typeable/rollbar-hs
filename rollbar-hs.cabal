@@ -45,6 +45,7 @@ library
       Rollbar.Item.Person
       Rollbar.Item.Request
       Rollbar.Item.Server
+      Rollbar.Aeson
   other-modules:
       Paths_rollbar_hs
   hs-source-dirs:
@@ -83,6 +84,7 @@ test-suite doc-test
     , base >=4.9
     , bytestring >=0.10
     , case-insensitive >=1.2
+    , hashable
     , hspec >=2.4
     , hspec-golden-aeson >=0.2
     , rollbar-hs

@@ -39,6 +39,6 @@ requiredBodyKeys = ["trace", "trace_chain", "message", "crash_report"]
 key :: Text -> Value -> [(Text, Value)]
 key k = \case
   Object o -> case Data.HashMap.Strict.lookupDefault Null k o of
-    Object o -> Data.HashMap.Strict.toList o
+    Object o' -> Data.HashMap.Strict.toList o'
     _        -> mempty
   _ -> mempty
