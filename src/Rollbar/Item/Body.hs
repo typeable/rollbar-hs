@@ -52,7 +52,7 @@ data Body arbitrary
         }
     deriving (Eq, Generic, Show)
 
-bodyKVs :: (KeyValue kv, ToJSON v) => Body v -> [kv]
+bodyKVs :: (KeyValue e kv, ToJSON v) => Body v -> [kv]
 bodyKVs Message{messageBody, messageData} =
     [ "body" .= messageBody
     , "data" .= messageData

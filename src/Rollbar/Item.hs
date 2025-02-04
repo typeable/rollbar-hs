@@ -198,7 +198,7 @@ data Item a headers
     deriving (Eq, Generic, Show)
 
 itemKVs
-    :: (KeyValue kv, RemoveHeaders headers, ToJSON v)
+    :: (KeyValue e kv, RemoveHeaders headers, ToJSON v)
     => Item v headers
     -> [kv]
 itemKVs Item{accessToken, itemData} =

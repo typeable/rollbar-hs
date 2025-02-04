@@ -57,7 +57,7 @@ data Server
         }
     deriving (Eq, Generic, Show)
 
-serverKVs :: KeyValue kv => Server -> [Maybe kv]
+serverKVs :: KeyValue e kv => Server -> [Maybe kv]
 serverKVs Server{branch, host, root, serverCodeVersion} =
     [ ("host" .=) <$> host
     , ("root" .=) <$> root

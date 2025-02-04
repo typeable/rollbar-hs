@@ -64,7 +64,7 @@ instance FromJSON (MissingHeaders headers) where
 instance RemoveHeaders headers => ToJSON (MissingHeaders headers) where
     toJSON = object . catMaybes . requestHeadersKVs . removeHeaders
 
-requestHeadersKVs :: forall kv. KeyValue kv => RequestHeaders -> [Maybe kv]
+requestHeadersKVs :: forall e kv. KeyValue e kv => RequestHeaders -> [Maybe kv]
 requestHeadersKVs = fmap go
     where
     go :: Header -> Maybe kv

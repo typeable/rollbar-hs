@@ -97,7 +97,7 @@ instance ToJSON Get where
     toJSON (Get q) = object . catMaybes . queryKVs $ q
     toEncoding (Get q) = pairs . mconcat . catMaybes . queryKVs $ q
 
-queryKVs :: forall kv. (KeyValue kv) => Query -> [Maybe kv]
+queryKVs :: forall e kv. KeyValue e kv => Query -> [Maybe kv]
 queryKVs = fmap go
     where
     go :: (BS.ByteString, Maybe BS.ByteString) -> Maybe kv
@@ -150,7 +150,7 @@ instance ToJSON IP where
     toJSON (IP ip) = toJSON (show ip)
     toEncoding (IP ip) = toEncoding (show ip)
 
-requestKVs :: (KeyValue kv, RemoveHeaders headers) => Request headers -> [kv]
+requestKVs :: (KeyValue e kv, RemoveHeaders headers) => Request headers -> [kv]
 requestKVs Request{get, headers, method, queryString, rawBody, url, userIP} =
     [ "body" .= rawBody
     , "GET" .= get
