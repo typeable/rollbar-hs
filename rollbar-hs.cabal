@@ -51,15 +51,15 @@ library
   hs-source-dirs:
       src
   build-depends:
-      aeson >= 2.2
-    , base >=4.9
+      aeson >=2.2
+    , base >=4.10
     , bytestring >=0.10
     , case-insensitive >=1.2
     , hostname >=1.0
     , http-client >=0.5
     , http-conduit >=2.2
-    , http-types >=0.9
-    , network >=2.6
+    , http-types >=0.8.6
+    , network >=2.6.3
     , text >=1.2
     , time >=1.6
     , unordered-containers >=0.2
@@ -80,14 +80,14 @@ test-suite doc-test
       test
   build-depends:
       QuickCheck >=2.9
-    , aeson >=1.0
-    , base >=4.9
-    , bytestring >=0.10
-    , case-insensitive >=1.2
+    , aeson
+    , base
+    , bytestring
+    , case-insensitive
     , hashable
     , hspec >=2.4
     , hspec-golden-aeson >=0.2
     , rollbar-hs
-    , text >=1.2
-    , unordered-containers >=0.2
+    , text
+    , unordered-containers
   default-language: Haskell2010
