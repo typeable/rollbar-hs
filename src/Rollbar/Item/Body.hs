@@ -34,7 +34,7 @@ import Data.Aeson
     , (.=)
     )
 import Data.Aeson.Encoding (pair)
-import Data.Aeson.Types    (typeMismatch)
+import Data.Aeson.Types    (explicitParseField, typeMismatch)
 import Data.String         (IsString)
 
 import GHC.Generics (Generic)
@@ -64,9 +64,10 @@ bodyKVs Message{messageBody, messageData} =
     ]
 
 instance FromJSON arbitrary => FromJSON (Body arbitrary) where
-    parseJSON (Object o') = do
-        o <- o' .: "message"
-        Message <$> o .: "body" <*> o .: "data"
+    parseJSON (Object o') = explicitParseField parseMessage o' "message"
+        where
+            parseMessage (Object o) = Message <$> o .: "body" <*> o .: "data"
+            parseMessage v = typeMismatch "Body arbitrary (message)" v
     parseJSON v = typeMismatch "Body arbitrary" v
 
 instance ToJSON arbitrary => ToJSON (Body arbitrary) where
