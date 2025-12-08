@@ -64,7 +64,11 @@ instance FromJSON (MissingHeaders headers) where
 instance RemoveHeaders headers => ToJSON (MissingHeaders headers) where
     toJSON = object . catMaybes . requestHeadersKVs . removeHeaders
 
+#if MIN_VERSION_aeson(2, 2, 0)
 requestHeadersKVs :: forall e kv. KeyValue e kv => RequestHeaders -> [Maybe kv]
+#else
+requestHeadersKVs :: forall kv. KeyValue kv => RequestHeaders -> [Maybe kv]
+#endif
 requestHeadersKVs = fmap go
     where
     go :: Header -> Maybe kv

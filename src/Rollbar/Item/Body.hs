@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE NamedFieldPuns #-}
@@ -52,7 +53,11 @@ data Body arbitrary
         }
     deriving (Eq, Generic, Show)
 
+#if MIN_VERSION_aeson(2, 2, 0)
 bodyKVs :: (KeyValue e kv, ToJSON v) => Body v -> [kv]
+#else
+bodyKVs :: (KeyValue kv, ToJSON v) => Body v -> [kv]
+#endif
 bodyKVs Message{messageBody, messageData} =
     [ "body" .= messageBody
     , "data" .= messageData

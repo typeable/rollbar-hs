@@ -51,8 +51,8 @@ library
   hs-source-dirs:
       src
   build-depends:
-      aeson >=2.2
-    , base >=4.10
+      aeson >=1.0
+    , base >=4.9
     , bytestring >=0.10
     , case-insensitive >=1.2
     , hostname >=1.0
