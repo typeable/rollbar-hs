@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE NamedFieldPuns #-}
@@ -97,7 +98,11 @@ instance ToJSON Get where
     toJSON (Get q) = object . catMaybes . queryKVs $ q
     toEncoding (Get q) = pairs . mconcat . catMaybes . queryKVs $ q
 
+#if MIN_VERSION_aeson(2, 2, 0)
 queryKVs :: forall e kv. KeyValue e kv => Query -> [Maybe kv]
+#else
+queryKVs :: forall kv. KeyValue kv => Query -> [Maybe kv]
+#endif
 queryKVs = fmap go
     where
     go :: (BS.ByteString, Maybe BS.ByteString) -> Maybe kv
@@ -150,7 +155,11 @@ instance ToJSON IP where
     toJSON (IP ip) = toJSON (show ip)
     toEncoding (IP ip) = toEncoding (show ip)
 
+#if MIN_VERSION_aeson(2, 2, 0)
 requestKVs :: (KeyValue e kv, RemoveHeaders headers) => Request headers -> [kv]
+#else
+requestKVs :: (KeyValue kv, RemoveHeaders headers) => Request headers -> [kv]
+#endif
 requestKVs Request{get, headers, method, queryString, rawBody, url, userIP} =
     [ "body" .= rawBody
     , "GET" .= get
